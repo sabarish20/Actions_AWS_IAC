@@ -21,7 +21,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@main
       with: 
         aws-region: ap-south-1
-        role-to-assume: AWS_OIDC_ROLE
+        role-to-assume: ${{ secrets.AWS_OIDC_ROLE }}
         
     - name: List EC2 Instance
       run: | 
