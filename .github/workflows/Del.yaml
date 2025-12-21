@@ -16,34 +16,8 @@ permissions:
 env: 
   AWS_REGION: "ap-south-1"
 
-jobs:
-  tf-plan:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout Repo
-      uses: actions/checkout@v4
-
-    - name: Configure AWS OIDC
-      uses: aws-actions/configure-aws-credentials@main
-      with: 
-        aws-region: ap-south-1
-        role-to-assume: ${{ secrets.AWS_OIDC_ROLE }}
-        
-    - name: Terraform Setup
-      uses: hashicorp/setup-terraform@v3
-      
-    - name: Terraform Init  
-      run: terraform init
-    
-    - name: Terraform Plan
-      run: terraform plan 
-
-    - name: Terraform Format
-      run: terraform fmt
-  
-  tf-apply:
-    needs: tf-plan
+jobs:  
+  tf-delete:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main'  }}
     runs-on: ubuntu-latest
 
@@ -57,11 +31,11 @@ jobs:
           aws-region: ap-south-1
           role-to-assume: ${{ secrets.AWS_OIDC_ROLE }}
           
-      - name: Terraform Setup
+      - name: Terraform Plan
         uses: hashicorp/setup-terraform@v3
         
       - name: Terraform Init  
         run: terraform init
       
-      - name: Terraform Apply
+      - name: Terraform Plan
         run: terraform apply -auto-approve

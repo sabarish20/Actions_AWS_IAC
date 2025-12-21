@@ -91,9 +91,11 @@ resource "aws_route" "pvt_route" {
 #     nat_gateway_id = aws_nat_gateway.natgw.id
 # }
 
+
 resource "aws_route_table_association" "pvt_rta" {
     count = length(var.az)
     subnet_id = aws_subnet.pvt_sub[count.index].id
     route_table_id = aws_route_table.pvt_route_table.id
 }
+
 
