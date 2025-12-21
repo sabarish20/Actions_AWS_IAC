@@ -65,6 +65,7 @@ resource "aws_eip" "nat_ip" {
 
 resource "aws_nat_gateway" "natgw" {
     subnet_id = aws_subnet.pub_sub[0].id
+    allocation_id = aws_eip.nat_ip.allocation_id
     tags = {
       Name = "NatGW"
     }
@@ -85,10 +86,10 @@ resource "aws_route" "pvt_route" {
     nat_gateway_id = aws_nat_gateway.natgw.id
 }
 
-resource "aws_nat_gateway_eip_association" "natgw_assoc" {
-    allocation_id = aws_eip.nat_ip.allocation_id
-    nat_gateway_id = aws_nat_gateway.natgw.id
-}
+# resource "aws_nat_gateway_eip_association" "natgw_assoc" {
+#     allocation_id = aws_eip.nat_ip.allocation_id
+#     nat_gateway_id = aws_nat_gateway.natgw.id
+# }
 
 resource "aws_route_table_association" "pvt_rta" {
     count = length(var.az)
