@@ -1,19 +1,13 @@
 name: Terraform Deployment
 
 on: 
-  # push:
-  #   branches: 
-  #   - main
-  # pull_request:
-  #   branches:
-  #   - main
-  workflow_dispatch:
-    inputs:
-      apply:
-          description: 'Are you sure ???'
-          required: true
-          type: boolean
-          default: false
+  push:
+    branches: 
+    - main
+  pull_request:
+    branches:
+    - main
+
 
 permissions:
   id-token: write
@@ -50,7 +44,7 @@ jobs:
   
   tf-apply:
     needs: tf-plan
-    if: ${{ inputs.apply == true }}
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main'  }}
     runs-on: ubuntu-latest
 
     steps:
