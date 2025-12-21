@@ -35,6 +35,6 @@ output "vpcid" {
   value = module.vpc.vpcid
 }
 
-output "node_security_group_id" {
-    value = module.eks.node_security_group_id
-}
+# output "node_security_group_id" {
+#     value = module.eks.node_security_group_id
+# }
