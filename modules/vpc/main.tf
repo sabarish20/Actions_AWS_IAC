@@ -69,7 +69,7 @@ resource "aws_nat_gateway" "natgw" {
       Name = "NatGW"
     }
 
-    depends_on = [ aws_internet_gateway.igw ]
+    depends_on = [ aws_internet_gateway.igw, aws_eip.nat_ip ]
 }
 
 resource "aws_route_table" "pvt_route_table" {
@@ -86,7 +86,7 @@ resource "aws_route" "pvt_route" {
 }
 
 resource "aws_nat_gateway_eip_association" "natgw_assoc" {
-    allocation_id = aws_eip.nat_ip.id
+    allocation_id = aws_eip.nat_ip.allocation_id
     nat_gateway_id = aws_nat_gateway.natgw.id
 }
 
@@ -95,3 +95,4 @@ resource "aws_route_table_association" "pvt_rta" {
     subnet_id = aws_subnet.pvt_sub[count.index].id
     route_table_id = aws_route_table.pvt_route_table.id
 }
+
